@@ -1,0 +1,192 @@
+/* 全体のスタイル */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+/* コンテナのスタイル */
+div {
+  margin: 0 auto;
+  padding: 20px;
+  max-width: 800px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* フォーム全体のスタイル */
+form {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+/* インプットフィールドのスタイル */
+input[type="text"], textarea {
+  width: calc(100% - 22px); /* Adjusted width for padding and borders */
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* 登録ボタンのスタイル */
+button {
+  background-color: #17c01d;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+/* ボタンのホバー効果 */
+button:hover {
+  background-color: #0776d1;
+}
+
+/* エラーメッセージのスタイル */
+.error {
+  color: red;
+  font-size: 0.9em;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+
+/* リストのデザインをフラットに */
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+/* リストアイテムのデザイン */
+li {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 10px;
+  margin-bottom: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* チェックボックスと商品名の間にスペースを追加 */
+li span {
+  margin-left: 10px;
+}
+
+
+/* アイテムリストコンテナ */
+.item-list-container {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+/* ページネーションのスタイル */
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination button {
+  padding: 5px 10px;
+  margin: 0 5px;
+  background-color: #90d48e;
+  border: 1px solid #90d48e;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  background-color: #90d48e;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  font-size: 1.1em;
+}
+
+.search-bar {
+  position: absolute; /* 絶対位置に配置 */
+  top: 10px; /* 上から10px */
+  right: 10px; /* 右から10px */
+  background-color: #f9f9f9; /* 背景色（必要に応じて変更） */
+  padding: 10px; /* 内側の余白 */
+  border-radius: 5px; /* 角の丸み */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 軽いシャドウ */
+  font-size: 14px; /* フォントサイズ */
+  z-index: 1000; /* 他の要素の上に表示 */
+}
+
+.search-bar h3 {
+  margin: 0; /* ヘッダーの余白をリセット */
+  font-size: 16px; /* ヘッダーのフォントサイズ */
+}
+
+.search-bar input {
+  width: 100%; /* 入力フィールドをコンテナの幅に合わせる */
+  padding: 5px; /* 内側の余白 */
+  border: 1px solid #ddd; /* 枠線 */
+  border-radius: 3px; /* 角の丸み */
+}
+
+
+.item-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* タイトルとボタンの間にスペースを確保 */
+  margin-bottom: 10px; /* タイトルと商品リストの間にスペースを確保 */
+}
+
+.item-list-header h2 {
+  margin: 0;
+}
+
+.item-list-header button {
+  background-color: #17c01d;;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+/* ボタンのホバー効果 */
+.item-list-header button:hover{
+  background-color: #0776d1;
+}
+
+.delete-button {
+  background-color: #f44336; /* 赤色 */
+  color: white; /* 白い文字 */
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px; /* ボタンの角を丸くする */
+}
+
+/* ボタンのホバー効果 */
+.delete-button:hover {
+  background-color: #0776d1;
+}

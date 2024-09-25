@@ -37,10 +37,18 @@ export const App = () => {
 
   // 商品を登録する関数
   const saveToItem = () => {
-    const newData = { itemName, itemCode, description }; // 新しい商品データを作成
-    setItemData([...itemData, newData]); // 商品データに追加
-    alert('登録しました。'); // 登録完了のアラート
-    setItemName(''); // 入力フィールドをリセット
+    // 入力項目が空の場合にアラートを表示
+    if (!itemName || !itemCode || !description) {
+      alert("全ての項目を入力してください");
+      return; // 入力がない場合は処理を中断
+    }
+  
+    const newData = { itemName, itemCode, description };
+    setItemData([...itemData, newData]);
+    alert('登録しました。');
+  
+    // フォームの状態をリセット
+    setItemName('');
     setItemCode('');
     setDescription('');
   };

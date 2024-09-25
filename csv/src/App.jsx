@@ -1,86 +1,91 @@
-import { useState, useRef, useEffect } from 'react';
-//import Papa from 'papaparse';
+import { useState, useEffect } from 'react';
 import './App.css';
-import ItemForm from './component/ItemForm'; // ItemFormをインポート
-import CsvSave from './component/CsvSave'; // CsvSaveをインポート
-import CsvLoad from './component/CsvLoad'; // CsvLoadコンポーネントをインポート
+import ItemForm from './component/ItemForm'; // 商品登録用のフォームコンポーネント
+import CsvSave from './component/CsvSave'; // CSVファイルに保存するコンポーネント
+import CsvLoad from './component/CsvLoad'; // CSVファイルを読み込むコンポーネント
+import ItemList from './component/ItemList'; // 登録された商品一覧を表示するコンポーネント
 
+// メインアプリコンポーネント
 export const App = () => {
-  const [itemName, setItemName] = useState('');
-  const [itemCode, setItemCode] = useState('');
-  const [description, setDescription] = useState('');
-  const [itemData, setItemData] = useState([]);
-  const [selectedItems, setSelectedItems] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');　//商品の検索キーワード
-  const [currentPage, setCurrentPage] = useState(1); // ページネーション用
-  const itemsPerPage = 10; // 1ページあたりの商品数
-  const [validationErrors, setValidationErrors] = useState({});
-  //const fileInputRef = useRef(null);
+  // 商品情報の状態管理
+  const [itemName, setItemName] = useState(''); // 商品名
+  const [itemCode, setItemCode] = useState(''); // 商品コード
+  const [description, setDescription] = useState(''); // 商品説明
+  const [itemData, setItemData] = useState([]); // 登録された商品データ
+  const [selectedItems, setSelectedItems] = useState([]); // 選択された商品のインデックス
+  const [searchTerm, setSearchTerm] = useState(''); // 検索用のキーワード
+  const [currentPage, setCurrentPage] = useState(1); // 現在のページ
+  const itemsPerPage = 5; // 1ページあたりの商品数
+  const [validationErrors, setValidationErrors] = useState({}); // バリデーションエラーメッセージ
 
-  // フォームに入力された内容を反映する処理
+  // 入力フィールドの変更を処理する関数
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if (name === 'itemName') setItemName(value);
-    if (name === 'itemCode') setItemCode(value);
-    if (name === 'description') setDescription(value);
+    if (name === 'itemName') setItemName(value); // 商品名の更新
+    if (name === 'itemCode') setItemCode(value); // 商品コードの更新
+    if (name === 'description') setDescription(value); // 商品説明の更新
   };
 
-  // バリデーションチェック
+  // 商品名、商品コード、商品説明のバリデーションを行う
   useEffect(() => {
     const errors = {};
-    if (!itemName) errors.itemName = "商品名を入力してください";
-    if (!itemCode) errors.itemCode = "商品コードを入力してください";
-    if (!description) errors.description = "商品説明を入力してください";
-    setValidationErrors(errors);
+    if (!itemName) errors.itemName = "商品名を入力してください"; // 商品名が空の場合
+    if (!itemCode) errors.itemCode = "商品コードを入力してください"; // 商品コードが空の場合
+    if (!description) errors.description = "商品説明を入力してください"; // 商品説明が空の場合
+    setValidationErrors(errors); // エラーメッセージを状態にセット
   }, [itemName, itemCode, description]);
 
-  // 入力された内容を保存する処理
+  // 商品を登録する関数
   const saveToItem = () => {
-    const newData = { itemName, itemCode, description };
-    setItemData([...itemData, newData]);
-    alert('登録しました。');
-    setItemName('');
+    const newData = { itemName, itemCode, description }; // 新しい商品データを作成
+    setItemData([...itemData, newData]); // 商品データに追加
+    alert('登録しました。'); // 登録完了のアラート
+    setItemName(''); // 入力フィールドをリセット
     setItemCode('');
     setDescription('');
   };
 
   // チェックボックスの変更を処理する関数
   const handleCheckboxChange = (filteredIndex) => {
-    const originalIndex = filteredItems[filteredIndex].originalIndex;
+    const originalIndex = filteredItems[filteredIndex].originalIndex; // 元のインデックスを取得
     if (selectedItems.includes(originalIndex)) {
-      setSelectedItems(selectedItems.filter(index => index !== originalIndex));
+      setSelectedItems(selectedItems.filter(index => index !== originalIndex)); // 選択解除
     } else {
-      setSelectedItems([...selectedItems, originalIndex]);
+      setSelectedItems([...selectedItems, originalIndex]); // 選択追加
     }
   };
 
-  // 選択されたアイテムを削除する関数
+  // 選択された商品を削除する関数
   const deleteSelectedItems = () => {
-    const newItems = itemData.filter((_, index) => !selectedItems.includes(index));
-    setItemData(newItems);
-    setSelectedItems([]);
+    const newItems = itemData.filter((_, index) => !selectedItems.includes(index)); // 選択されていない商品をフィルタリング
+    setItemData(newItems); // 商品データを更新
+    setSelectedItems([]); // 選択された商品をリセット
   };
 
-  // 商品検索処理
+  // 検索ボックスの入力を処理する関数
   const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
+    setSearchTerm(e.target.value); // 検索キーワードを更新
   };
 
-  // 検索とページネーション処理
+  // 検索結果をフィルタリング
   const filteredItems = itemData
-    .map((item, index) => ({ ...item, originalIndex: index })) // originalIndex を付与
-    .filter((item) => item.itemName.toLowerCase().includes(searchTerm.toLowerCase()))
-    .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+    .map((item, index) => ({ ...item, originalIndex: index })) // 商品データに元のインデックスを追加
+    .filter((item) => item.itemName.toLowerCase().includes(searchTerm.toLowerCase())); // 検索キーワードでフィルタリング
 
-  const totalPages = Math.ceil(itemData.length / itemsPerPage);
+  // ページネーション用のアイテムを取得
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage); // 総ページ数
+  const currentItems = filteredItems.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage); // 現在のページに表示するアイテム
 
-  // ページ切り替え処理
-  const changePage = (newPage) => {
-    if (newPage < 1 || newPage > totalPages) return;
-    setCurrentPage(newPage);
-    setSelectedItems([]); // ページ変更時に選択状態をリセット
+  // ページ切り替え関数
+  const changePage = (direction) => {
+    if (direction === 'next' && currentPage < totalPages) {
+      setCurrentPage(currentPage + 1); // 次のページへ移動
+    } else if (direction === 'prev' && currentPage > 1) {
+      setCurrentPage(currentPage - 1); // 前のページへ移動
+    }
   };
 
+  // コンポーネントのレンダリング
   return (
     <div>
       <div className="search-bar">
@@ -89,13 +94,13 @@ export const App = () => {
           type="text"
           value={searchTerm}
           onChange={handleSearch}
-          placeholder="商品名で検索"
+          placeholder="商品名で検索" // 検索ボックスのプレースホルダー
         />
       </div>
 
       <div className="item-list-section">
         <h2>CSVファイルを読み込み</h2>
-        <CsvLoad setItemData={setItemData} setSearchTerm={setSearchTerm} />
+        <CsvLoad setItemData={setItemData} setSelectedItems={setSelectedItems} /> {/* CSVファイルを読み込むコンポーネント */}
 
         <ItemForm
           itemName={itemName}
@@ -103,42 +108,28 @@ export const App = () => {
           description={description}
           handleInputChange={handleInputChange}
           saveToItem={saveToItem}
-          validationErrors={validationErrors}
+          validationErrors={validationErrors} // バリデーションエラーメッセージを渡す
         />
 
         <div className="item-list-section">
           <div className="item-list-header">
             <h2>登録された商品一覧</h2>
-            <CsvSave itemData={itemData} />
+            <CsvSave itemData={itemData} /> {/* CSVファイルに保存するコンポーネント */}
           </div>
-          <div className="item-list-container">
-            <ul>
-              {filteredItems.map((item, filteredIndex) => (
-                <li key={item.originalIndex}>
-                  <input
-                    type="checkbox"
-                    checked={selectedItems.includes(item.originalIndex)}
-                    onChange={() => handleCheckboxChange(filteredIndex)}
-                  />
-                  <span>{item.itemName}, {item.itemCode}, {item.description}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {selectedItems.length > 0 && (
-            <button type="button" onClick={deleteSelectedItems} className="delete-button">
-              選択された商品を削除
-            </button>
-          )}
+          <ItemList
+            filteredItems={currentItems} // 現在のページに表示するアイテムを渡す
+            selectedItems={selectedItems}
+            handleCheckboxChange={handleCheckboxChange} // チェックボックスの変更処理を渡す
+            deleteSelectedItems={deleteSelectedItems} // 削除処理を渡す
+          />
 
           {/* ページネーション */}
           <div className="pagination">
-            <button onClick={() => changePage(currentPage - 1)} disabled={currentPage === 1}>
+            <button onClick={() => changePage('prev')} disabled={currentPage === 1}>
               前へ
             </button>
-            <span>{currentPage} / {totalPages}</span>
-            <button onClick={() => changePage(currentPage + 1)} disabled={currentPage === totalPages}>
+            <span>{currentPage} / {totalPages}</span> {/* 現在のページと総ページ数を表示 */}
+            <button onClick={() => changePage('next')} disabled={currentPage === totalPages}>
               次へ
             </button>
           </div>
@@ -148,4 +139,4 @@ export const App = () => {
   );
 };
 
-export default App;
+export default App; // Appコンポーネントをエクスポート

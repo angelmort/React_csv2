@@ -4,7 +4,7 @@ import { saveAs } from 'file-saver'; // file-saverをインポート（ファイ
 
 // CSVに商品データを保存する処理を定義したコンポーネント
 const CsvSave = ({ itemData }) => {
-  
+
   // CSVファイル保存処理
   const saveToCsv = () => {
     // itemDataが空でないことを確認
@@ -12,13 +12,14 @@ const CsvSave = ({ itemData }) => {
       alert('保存する商品がありません'); // データがない場合は警告を表示
       return; // 処理を終了
     }
-    
+
     // itemDataをCSV形式に変換
     const csv = Papa.unparse(itemData, { header: true });
-    
+
     if (csv) { // CSV変換が成功した場合
-      // Blobオブジェクトを作成（CSVデータをバイナリ形式で扱うため）
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      // UTF-8 BOMを追加
+      const bom = "\uFEFF"; // UTF-8 BOM
+      const blob = new Blob([bom + csv], { type: 'text/csv;charset=utf-8;' }); // CSVデータにBOMを追加
       // CSVファイルとして保存
       saveAs(blob, 'products.csv'); // 'products.csv'という名前で保存
       alert('CSVファイルが保存されました'); // 保存成功のメッセージ

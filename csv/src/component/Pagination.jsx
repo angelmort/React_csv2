@@ -1,31 +1,29 @@
-import React from 'react'; // Reactをインポート
+// ページネーション用コンポーネント
+const Pagination = ({ currentPage, totalPages, setCurrentPage }) => {
 
-// ページネーションのコンポーネント
-const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+  // ページ切り替えを処理する関数
+  const changePage = (direction) => {
+    if (direction === 'next' && currentPage < totalPages) {
+      setCurrentPage(currentPage + 1); // 次のページに移動
+    } else if (direction === 'prev' && currentPage > 1) {
+      setCurrentPage(currentPage - 1); // 前のページに戻る
+    }
+  };
+
   return (
     <div className="pagination">
-      {/* 前のページへ移動するボタン */}
-      <button 
-        onClick={() => onPageChange(currentPage - 1)} // クリック時に前のページに移動
-        disabled={currentPage === 1} // 現在のページが1の場合は無効
-      >
+      {/* 前のページボタン */}
+      <button onClick={() => changePage('prev')} disabled={currentPage === 1}>
         前へ
       </button>
-
-      {/* 現在のページと総ページ数を表示 */}
-      <span>
-        {currentPage} / {totalPages} {/* 例: 1 / 5 */}
-      </span>
-
-      {/* 次のページへ移動するボタン */}
-      <button 
-        onClick={() => onPageChange(currentPage + 1)} // クリック時に次のページに移動
-        disabled={currentPage === totalPages} // 現在のページが最終ページの場合は無効
-      >
+      {/* 現在のページ / 総ページ数 */}
+      <span>{currentPage} / {totalPages}</span> 
+      {/* 次のページボタン */}
+      <button onClick={() => changePage('next')} disabled={currentPage === totalPages}>
         次へ
       </button>
     </div>
   );
 };
 
-export default Pagination; // Paginationコンポーネントをエクスポート
+export default Pagination;

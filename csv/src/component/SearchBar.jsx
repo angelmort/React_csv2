@@ -1,20 +1,23 @@
-import React from 'react'; // Reactをインポート
+// 商品検索バーコンポーネント
+const SearchBar = ({ searchTerm, setSearchTerm }) => {
+  
+  // 検索キーワードの変更を処理
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value); // 検索キーワードを更新
+  };
 
-// 商品検索バーのコンポーネント
-const SearchBar = ({ searchTerm, onSearchChange }) => {
   return (
     <div className="search-bar">
-      <h3>商品検索</h3> {/* 検索バーのタイトル */}
-
+      <h3>商品検索</h3>
       {/* 検索入力フィールド */}
       <input
         type="text"
-        value={searchTerm} // 現在の検索語を表示
-        onChange={onSearchChange} // 入力変更時に呼び出される関数
-        placeholder="商品名で検索" // プレースホルダーとして表示するテキスト
+        value={searchTerm}
+        onChange={handleSearch}
+        placeholder="商品名で検索" // プレースホルダー
       />
     </div>
   );
 };
 
-export default SearchBar; // SearchBarコンポーネントをエクスポート
+export default SearchBar;

@@ -84,7 +84,6 @@ li span {
   margin-left: 10px;
 }
 
-
 /* アイテムリストコンテナ */
 .item-list-container {
   max-height: 300px;
@@ -104,20 +103,30 @@ li span {
 .pagination button {
   padding: 5px 10px;
   margin: 0 5px;
-  background-color: #90d48e;
-  border: 1px solid #90d48e;
+  background-color: #4CAF50; /* 緑色の背景 */
+  border: none;
+  color: white;
+  border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pagination button:hover {
+  background-color: #45a049; /* ホバー時に背景色を変える */
 }
 
 .pagination button:disabled {
-  background-color: #90d48e;
-  cursor: not-allowed;
+  background-color: #f44336; /* 赤色の背景 */
+  opacity: 0.7; /* ボタンを少し透明に */
+  cursor: not-allowed; /* カーソルを変える */
+  pointer-events: none; /* クリックを無効化 */
 }
 
 .pagination span {
   font-size: 1.1em;
 }
 
+/* 検索バー */
 .search-bar {
   position: absolute; /* 絶対位置に配置 */
   top: 10px; /* 上から10px */
@@ -141,7 +150,6 @@ li span {
   border: 1px solid #ddd; /* 枠線 */
   border-radius: 3px; /* 角の丸み */
 }
-
 
 .item-list-header {
   display: flex;
@@ -168,7 +176,7 @@ li span {
 }
 
 /* ボタンのホバー効果 */
-.item-list-header button:hover{
+.item-list-header button:hover {
   background-color: #0776d1;
 }
 
